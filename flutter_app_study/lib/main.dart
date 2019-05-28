@@ -10,9 +10,11 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-
     Widget img1 = new Container(
-      child: new Image(image: new AssetImage("images/lake.jpg"),fit: BoxFit.cover,),
+      child: new Image(
+        image: new AssetImage("images/lake.jpg"),
+        fit: BoxFit.cover,
+      ),
     );
 
     Widget s1 = new Container(
@@ -36,11 +38,7 @@ class MyApp extends StatelessWidget {
               ),
             ],
           )),
-          new Icon(
-            Icons.star,
-            color: Colors.red[500],
-          ),
-          new Text("33"),
+         new FavoriteStarWidget(),
         ],
       ),
     );
@@ -69,7 +67,7 @@ class MyApp extends StatelessWidget {
 
     Widget bt1 = new Container(
       child: new Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
           buildBt(Icons.call, "CALL"),
           buildBt(Icons.near_me, "ROUTE"),
@@ -93,27 +91,52 @@ class MyApp extends StatelessWidget {
         ),
         home: new Scaffold(
           body: new ListView(
-            children: <Widget>[img1,s1, bt1, text1],
+            children: <Widget>[img1, s1, bt1, text1],
           ),
         ));
+  }
+}
 
-//    return new Center(
-//      child: new Image(image: new AssetImage("images/lake.jpg")),
-//    );
-//      return new Center(
-//        child: new Icon(Icons.star,color: Colors.red[500],textDirection: TextDirection.ltr,),
-//      );
-//    return new Center(
-//        child: new Text('Hello World', style: new TextStyle(fontSize: 32.0),textDirection: TextDirection.ltr,),
-//    );
-//    return new DecoratedBox(
-//      decoration: new BoxDecoration(
-//        image: new DecorationImage(
-//          image: new AssetImage('images/time.png'),
-//          // ...
-//        ),
-//        // ...
-//      ),
-//    );
+class FavoriteStarWidget extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => new _FavoriteStar();
+}
+
+class _FavoriteStar extends State<FavoriteStarWidget> {
+  bool _b = false;
+  int starNumbers = 33;
+
+  void _toggleStar() {
+    setState(() {
+      if (_b) {
+        starNumbers--;
+        _b = false;
+      } else {
+        starNumbers++;
+        _b = true;
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return new Row(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        new Container(
+          padding: new EdgeInsets.all(0.0),
+          child: new IconButton(
+              icon: _b ? new Icon(Icons.star) : new Icon(Icons.star_border),
+              color: Colors.red[500],
+              onPressed: _toggleStar),
+        ),
+        new SizedBox(
+          width: 18.0,
+          child: new Container(
+            child: new Text("$starNumbers"),
+          ),
+        )
+      ],
+    );
   }
 }
